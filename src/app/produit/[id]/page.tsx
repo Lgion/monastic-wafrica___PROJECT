@@ -7,12 +7,13 @@ import { ArrowLeft, MapPin, Phone } from 'lucide-react'
 import AddToCartButton from '@/components/AddToCartButton'
 
 interface Props {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
 export default async function ProductPage({ params }: Props) {
+  const { id } = await params
   const product = await prisma.product.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: { monastery: true },
   })
 
