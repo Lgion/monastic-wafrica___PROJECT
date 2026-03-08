@@ -11,7 +11,7 @@ interface AddToCartButtonProps {
     price: number
     stock: number
     images: string
-    category: Category
+    category: string | Category
   }
 }
 
@@ -22,10 +22,10 @@ export default function AddToCartButton({ product }: AddToCartButtonProps) {
   const handleAddToCart = () => {
     // Get existing cart from localStorage
     const cart = JSON.parse(localStorage.getItem('cart') || '[]')
-    
+
     // Check if product already in cart
     const existingItem = cart.find((item: { productId: string }) => item.productId === product.id)
-    
+
     if (existingItem) {
       existingItem.quantity += quantity
     } else {
@@ -37,10 +37,10 @@ export default function AddToCartButton({ product }: AddToCartButtonProps) {
         image: product.images.split(',')[0] || '/placeholder.jpg',
       })
     }
-    
+
     localStorage.setItem('cart', JSON.stringify(cart))
     setAdded(true)
-    
+
     // Reset after 2 seconds
     setTimeout(() => setAdded(false), 2000)
   }
@@ -49,7 +49,7 @@ export default function AddToCartButton({ product }: AddToCartButtonProps) {
     return (
       <button
         disabled
-        className="w-full py-3 bg-gray-200 text-gray-500 font-medium rounded-lg cursor-not-allowed"
+        className="add-to-cart__submit add-to-cart__submit--disabled"
       >
         Rupture de stock
       </button>
@@ -57,25 +57,25 @@ export default function AddToCartButton({ product }: AddToCartButtonProps) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="add-to-cart">
       {/* Quantity Selector */}
-      <div className="flex items-center space-x-4">
-        <span className="text-sm font-medium text-gray-700">Quantité:</span>
-        <div className="flex items-center border border-gray-300 rounded-lg">
+      <div className="add-to-cart__quantity">
+        <span className="add-to-cart__label">Quantité:</span>
+        <div className="add-to-cart__controls">
           <button
             onClick={() => setQuantity(Math.max(1, quantity - 1))}
-            className="p-2 hover:bg-gray-100 transition-colors"
+            className="add-to-cart__btn"
             disabled={quantity <= 1}
           >
-            <Minus className="w-4 h-4" />
+            <Minus className="add-to-cart__icon" />
           </button>
-          <span className="w-12 text-center font-medium">{quantity}</span>
+          <span className="add-to-cart__value">{quantity}</span>
           <button
             onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
-            className="p-2 hover:bg-gray-100 transition-colors"
+            className="add-to-cart__btn"
             disabled={quantity >= product.stock}
           >
-            <Plus className="w-4 h-4" />
+            <Plus className="add-to-cart__icon" />
           </button>
         </div>
       </div>
@@ -84,20 +84,19 @@ export default function AddToCartButton({ product }: AddToCartButtonProps) {
       <button
         onClick={handleAddToCart}
         disabled={added}
-        className={`w-full py-3 font-medium rounded-lg flex items-center justify-center space-x-2 transition-colors ${
-          added
-            ? 'bg-green-600 text-white'
-            : 'bg-amber-700 text-white hover:bg-amber-800'
-        }`}
+        className={`add-to-cart__submit ${added
+          ? 'add-to-cart__submit--added'
+          : 'add-to-cart__submit--normal'
+          }`}
       >
         {added ? (
           <>
-            <Check className="w-5 h-5" />
+            <Check className="add-to-cart__submit-icon" />
             <span>Ajouté au panier!</span>
           </>
         ) : (
           <>
-            <ShoppingCart className="w-5 h-5" />
+            <ShoppingCart className="add-to-cart__submit-icon" />
             <span>Ajouter au panier - {(product.price * quantity).toLocaleString()} FCFA</span>
           </>
         )}

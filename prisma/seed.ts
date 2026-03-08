@@ -7,6 +7,8 @@ const monasteries = [
     description: 'Monastère bénédictin fondé en 1965, spécialisé dans la production de miel et de confitures artisanales.',
     phone: '+225 07 12 34 56',
     email: 'kokrobite@monastic.ci',
+    latitude: 5.23,
+    longitude: -4.18,
   },
   {
     name: 'Abbaye de Bouaké',
@@ -14,6 +16,8 @@ const monasteries = [
     description: 'Abbaye cistercienne réputée pour ses tisanes médicinales et ses cosmétiques naturels.',
     phone: '+225 05 67 89 01',
     email: 'bouake@monastic.ci',
+    latitude: 7.69,
+    longitude: -5.03,
   },
   {
     name: 'Monastère Sainte Marie',
@@ -21,6 +25,8 @@ const monasteries = [
     description: 'Monastère dominicain produisant des épices et des miels de haute qualité.',
     phone: '+225 01 23 45 67',
     email: 'ste-marie@monastic.ci',
+    latitude: 5.34,
+    longitude: -3.98,
   },
 ]
 

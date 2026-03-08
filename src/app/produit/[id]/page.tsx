@@ -32,37 +32,37 @@ export default async function ProductPage({ params }: Props) {
   })
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="produit">
       {/* Back Link */}
       <Link
         href="/boutique"
-        className="inline-flex items-center text-gray-600 hover:text-amber-700 mb-6"
+        className="produit__back-link"
       >
-        <ArrowLeft className="w-4 h-4 mr-2" />
+        <ArrowLeft className="produit__back-icon" />
         Retour à la boutique
       </Link>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+      <div className="produit__grid">
         {/* Images */}
-        <div className="space-y-4">
-          <div className="relative aspect-square bg-gray-100 rounded-lg overflow-hidden">
+        <div className="produit__images">
+          <div className="produit__image-main">
             <Image
               src={images[0] || '/placeholder.jpg'}
               alt={product.name}
               fill
-              className="object-cover"
+              className="produit__img"
               priority
             />
           </div>
           {images.length > 1 && (
-            <div className="grid grid-cols-4 gap-2">
-              {images.slice(1).map((img, i) => (
-                <div key={i} className="relative aspect-square bg-gray-100 rounded-lg overflow-hidden">
+            <div className="produit__image-thumbs">
+              {images.slice(1).map((img: string, i: number) => (
+                <div key={i} className="produit__image-thumb">
                   <Image
                     src={img}
                     alt={`${product.name} - ${i + 2}`}
                     fill
-                    className="object-cover"
+                    className="produit__img"
                   />
                 </div>
               ))}
@@ -71,21 +71,21 @@ export default async function ProductPage({ params }: Props) {
         </div>
 
         {/* Info */}
-        <div className="space-y-6">
+        <div className="produit__info">
           <div>
-            <span className="inline-block px-3 py-1 bg-amber-100 text-amber-800 text-sm font-medium rounded-full mb-3">
-              {categoryLabels[product.category]}
+            <span className="produit__category">
+              {(categoryLabels as Record<string, string>)[product.category] || product.category}
             </span>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">{product.name}</h1>
-            <p className="text-2xl font-bold text-amber-700">{product.price.toLocaleString()} FCFA</p>
+            <h1 className="produit__title">{product.name}</h1>
+            <p className="produit__price">{product.price.toLocaleString()} FCFA</p>
           </div>
 
-          <div className="prose prose-sm text-gray-600">
+          <div className="produit__desc">
             <p>{product.description}</p>
           </div>
 
-          <div className="flex items-center gap-4 text-sm text-gray-500">
-            <span className={product.stock > 0 ? 'text-green-600' : 'text-red-600'}>
+          <div className="produit__stock">
+            <span className={product.stock > 0 ? 'produit__stock-status--in' : 'produit__stock-status--out'}>
               {product.stock > 0 ? `En stock (${product.stock} disponibles)` : 'Rupture de stock'}
             </span>
           </div>
@@ -93,17 +93,17 @@ export default async function ProductPage({ params }: Props) {
           <AddToCartButton product={product} />
 
           {/* Monastery Info */}
-          <div className="border-t border-gray-200 pt-6">
-            <h3 className="font-semibold text-gray-900 mb-3">Produit par</h3>
-            <div className="bg-amber-50 rounded-lg p-4">
-              <p className="font-medium text-amber-900">{product.monastery.name}</p>
-              <div className="flex items-center gap-2 text-sm text-amber-700 mt-1">
-                <MapPin className="w-4 h-4" />
+          <div className="produit__monastery-section">
+            <h3 className="produit__monastery-title">Produit par</h3>
+            <div className="produit__monastery-card">
+              <p className="produit__monastery-name">{product.monastery.name}</p>
+              <div className="produit__monastery-contact">
+                <MapPin className="produit__monastery-icon" />
                 {product.monastery.location}
               </div>
               {product.monastery.phone && (
-                <div className="flex items-center gap-2 text-sm text-amber-700 mt-1">
-                  <Phone className="w-4 h-4" />
+                <div className="produit__monastery-contact">
+                  <Phone className="produit__monastery-icon" />
                   {product.monastery.phone}
                 </div>
               )}
@@ -114,24 +114,24 @@ export default async function ProductPage({ params }: Props) {
 
       {/* Related Products */}
       {relatedProducts.length > 0 && (
-        <div className="border-t border-gray-200 pt-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-6">Produits similaires</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {relatedProducts.map((p) => (
+        <div className="produit__related">
+          <h2 className="produit__related-title">Produits similaires</h2>
+          <div className="produit__related-grid">
+            {relatedProducts.map((p: any) => (
               <div key={p.id}>
-                <Link href={`/produit/${p.id}`} className="block group">
-                  <div className="relative aspect-square bg-gray-100 rounded-lg overflow-hidden mb-3">
+                <Link href={`/produit/${p.id}`} className="produit__related-item">
+                  <div className="produit__related-image-wrapper">
                     <Image
                       src={p.images.split(',')[0] || '/placeholder.jpg'}
                       alt={p.name}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform"
+                      className="produit__related-image"
                     />
                   </div>
-                  <h3 className="font-medium text-gray-900 group-hover:text-amber-700 transition-colors">
+                  <h3 className="produit__related-name">
                     {p.name}
                   </h3>
-                  <p className="text-amber-700 font-semibold">{p.price.toLocaleString()} FCFA</p>
+                  <p className="produit__related-price">{p.price.toLocaleString()} FCFA</p>
                 </Link>
               </div>
             ))}

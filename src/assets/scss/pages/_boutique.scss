@@ -1,0 +1,97 @@
+.boutique {
+    max-width: 80rem;
+    /* max-w-7xl */
+    margin-left: auto;
+    margin-right: auto;
+    padding: 2rem 1rem;
+    /* py-8 px-4 */
+
+    @media (min-width: 640px) {
+        padding-left: 1.5rem;
+        /* px-6 */
+        padding-right: 1.5rem;
+    }
+
+    @media (min-width: 1024px) {
+        padding-left: 2rem;
+        /* px-8 */
+        padding-right: 2rem;
+    }
+
+    &__title {
+        font-size: 1.875rem;
+        /* text-3xl */
+        line-height: 2.25rem;
+        font-weight: 700;
+        color: #111827;
+        /* text-gray-900 */
+        margin-bottom: 2rem;
+        /* mb-8 */
+    }
+
+    &__filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        /* gap-2 */
+        margin-bottom: 2rem;
+        /* mb-8 */
+    }
+
+    &__filter-btn {
+        padding: 0.5rem 1rem;
+        /* px-4 py-2 */
+        border-radius: 9999px;
+        /* rounded-full */
+        font-size: 0.875rem;
+        /* text-sm */
+        font-weight: 500;
+        transition: background-color 0.2s ease, color 0.2s ease;
+        text-decoration: none;
+
+        &--active {
+            background-color: #b45309;
+            /* bg-amber-700 */
+            color: #ffffff;
+        }
+
+        &--inactive {
+            background-color: #f3f4f6;
+            /* bg-gray-100 */
+            color: #374151;
+            /* text-gray-700 */
+
+            &:hover {
+                background-color: #e5e7eb;
+                /* bg-gray-200 */
+            }
+        }
+    }
+
+    &__grid {
+        display: grid;
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+        gap: 1.5rem;
+        /* gap-6 */
+
+        @media (min-width: 640px) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        @media (min-width: 1024px) {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+    }
+
+    &__empty {
+        text-align: center;
+        padding-top: 4rem;
+        /* py-16 */
+        padding-bottom: 4rem;
+    }
+
+    &__empty-text {
+        color: #6b7280;
+        /* text-gray-500 */
+    }
+}

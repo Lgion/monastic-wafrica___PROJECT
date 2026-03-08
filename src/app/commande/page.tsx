@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, CheckCircle } from 'lucide-react'
 import { CartItem, PaymentMethod, paymentLabels, abidjanDistricts } from '@/lib/types'
+import PaymentWidget from '@/components/PaymentWidget'
 
 export default function CheckoutPage() {
   const router = useRouter()
@@ -12,7 +13,8 @@ export default function CheckoutPage() {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [orderId, setOrderId] = useState('')
-  
+  const [showPayment, setShowPayment] = useState(false)
+
   const [formData, setFormData] = useState({
     customerName: '',
     customerPhone: '',
@@ -53,8 +55,13 @@ export default function CheckoutPage() {
       if (response.ok) {
         const data = await response.json()
         setOrderId(data.id)
-        setSuccess(true)
-        localStorage.removeItem('cart')
+
+        if (formData.paymentMethod === 'CASH_ON_DELIVERY') {
+          setSuccess(true)
+          localStorage.removeItem('cart')
+        } else {
+          setShowPayment(true)
+        }
       }
     } catch (error) {
       console.error('Error placing order:', error)
@@ -65,17 +72,17 @@ export default function CheckoutPage() {
 
   if (success) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
-        <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Commande confirmée!</h1>
-        <p className="text-gray-600 mb-2">Merci pour votre commande.</p>
-        <p className="text-sm text-gray-500 mb-6">Numéro de commande: {orderId}</p>
-        <p className="text-gray-600 mb-6 max-w-md mx-auto">
+      <div className="checkout__success">
+        <CheckCircle className="checkout__success-icon" />
+        <h1 className="checkout__success-title">Commande confirmée!</h1>
+        <p className="checkout__success-text">Merci pour votre commande.</p>
+        <p className="checkout__success-order-id">Numéro de commande: {orderId}</p>
+        <p className="checkout__success-info">
           Nous vous contacterons prochainement pour confirmer votre commande et organiser la livraison.
         </p>
         <Link
           href="/boutique"
-          className="inline-flex items-center px-6 py-3 bg-amber-700 text-white font-medium rounded-lg hover:bg-amber-800 transition-colors"
+          className="checkout__success-btn"
         >
           Continuer les achats
         </Link>
@@ -83,63 +90,83 @@ export default function CheckoutPage() {
     )
   }
 
+  if (showPayment) {
+    return (
+      <div className="checkout__payment-overlay">
+        <PaymentWidget
+          amount={grandTotal}
+          orderId={orderId}
+          onSuccess={async () => {
+            // Update order status in DB
+            await fetch(`/api/orders/${orderId}/pay`, { method: 'POST' });
+
+            setSuccess(true)
+            setShowPayment(false)
+            localStorage.removeItem('cart')
+          }}
+          onCancel={() => setShowPayment(false)}
+        />
+      </div>
+    )
+  }
+
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="checkout">
       <Link
         href="/panier"
-        className="inline-flex items-center text-gray-600 hover:text-amber-700 mb-6"
+        className="checkout__back-link"
       >
-        <ArrowLeft className="w-4 h-4 mr-2" />
+        <ArrowLeft className="cart__back-icon" />
         Retour au panier
       </Link>
 
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Finaliser la commande</h1>
+      <h1 className="checkout__title">Finaliser la commande</h1>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="checkout__grid">
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="checkout__form">
           <div>
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Informations de livraison</h2>
-            <div className="space-y-4">
+            <h2 className="checkout__section-title">Informations de livraison</h2>
+            <div className="checkout__fields">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Nom complet *</label>
+                <label className="checkout__label">Nom complet *</label>
                 <input
                   type="text"
                   required
                   value={formData.customerName}
                   onChange={(e) => setFormData({ ...formData, customerName: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                  className="checkout__input"
                   placeholder="Jean Dupont"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Téléphone *</label>
+                <label className="checkout__label">Téléphone *</label>
                 <input
                   type="tel"
                   required
                   value={formData.customerPhone}
                   onChange={(e) => setFormData({ ...formData, customerPhone: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                  className="checkout__input"
                   placeholder="+225 XX XX XX XX"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <label className="checkout__label">Email</label>
                 <input
                   type="email"
                   value={formData.customerEmail}
                   onChange={(e) => setFormData({ ...formData, customerEmail: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                  className="checkout__input"
                   placeholder="email@exemple.com"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Quartier *</label>
+                <label className="checkout__label">Quartier *</label>
                 <select
                   required
                   value={formData.district}
                   onChange={(e) => setFormData({ ...formData, district: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                  className="checkout__input"
                 >
                   <option value="">Sélectionner un quartier</option>
                   {abidjanDistricts.map((district) => (
@@ -148,13 +175,13 @@ export default function CheckoutPage() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Adresse détaillée *</label>
+                <label className="checkout__label">Adresse détaillée *</label>
                 <textarea
                   required
                   rows={3}
                   value={formData.address}
                   onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500"
+                  className="checkout__input"
                   placeholder="Rue, immeuble, appartement..."
                 />
               </div>
@@ -162,16 +189,15 @@ export default function CheckoutPage() {
           </div>
 
           <div>
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Mode de paiement</h2>
-            <div className="space-y-2">
+            <h2 className="checkout__section-title">Mode de paiement</h2>
+            <div className="checkout__payment-methods">
               {(Object.keys(paymentLabels) as PaymentMethod[]).map((method) => (
                 <label
                   key={method}
-                  className={`flex items-center p-4 border rounded-lg cursor-pointer transition-colors ${
-                    formData.paymentMethod === method
-                      ? 'border-amber-500 bg-amber-50'
-                      : 'border-gray-200 hover:border-gray-300'
-                  }`}
+                  className={`checkout__payment-method ${formData.paymentMethod === method
+                    ? 'checkout__payment-method--active'
+                    : 'checkout__payment-method--inactive'
+                    }`}
                 >
                   <input
                     type="radio"
@@ -179,9 +205,9 @@ export default function CheckoutPage() {
                     value={method}
                     checked={formData.paymentMethod === method}
                     onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value as PaymentMethod })}
-                    className="w-4 h-4 text-amber-600 focus:ring-amber-500"
+                    className="checkout__radio"
                   />
-                  <span className="ml-3 font-medium">{paymentLabels[method]}</span>
+                  <span className="checkout__radio-label">{paymentLabels[method]}</span>
                 </label>
               ))}
             </div>
@@ -190,35 +216,35 @@ export default function CheckoutPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-amber-700 text-white font-medium rounded-lg hover:bg-amber-800 transition-colors disabled:bg-gray-400"
+            className="checkout__submit-btn"
           >
             {loading ? 'Traitement...' : `Confirmer la commande - ${grandTotal.toLocaleString()} FCFA`}
           </button>
         </form>
 
         {/* Order Summary */}
-        <div className="bg-gray-50 p-6 rounded-lg h-fit">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Récapitulatif</h2>
-          <div className="space-y-3 mb-4">
+        <div className="checkout__summary">
+          <h2 className="checkout__summary-title">Récapitulatif</h2>
+          <div className="checkout__summary-items">
             {cart.map((item) => (
-              <div key={item.productId} className="flex justify-between text-sm">
-                <span className="text-gray-600">{item.name} x{item.quantity}</span>
-                <span className="font-medium">{(item.price * item.quantity).toLocaleString()} FCFA</span>
+              <div key={item.productId} className="checkout__summary-item">
+                <span className="checkout__summary-item-name">{item.name} x{item.quantity}</span>
+                <span className="checkout__summary-item-price">{(item.price * item.quantity).toLocaleString()} FCFA</span>
               </div>
             ))}
           </div>
-          <div className="border-t border-gray-200 pt-3 space-y-2">
-            <div className="flex justify-between text-sm">
-              <span className="text-gray-600">Sous-total</span>
-              <span className="font-medium">{total.toLocaleString()} FCFA</span>
+          <div className="checkout__summary-totals">
+            <div className="checkout__summary-row">
+              <span className="checkout__summary-label">Sous-total</span>
+              <span className="checkout__summary-value">{total.toLocaleString()} FCFA</span>
             </div>
-            <div className="flex justify-between text-sm">
-              <span className="text-gray-600">Livraison</span>
-              <span className="font-medium">{deliveryFee.toLocaleString()} FCFA</span>
+            <div className="checkout__summary-row">
+              <span className="checkout__summary-label">Livraison</span>
+              <span className="checkout__summary-value">{deliveryFee.toLocaleString()} FCFA</span>
             </div>
-            <div className="flex justify-between text-lg font-semibold pt-2 border-t border-gray-200">
+            <div className="checkout__summary-total-row">
               <span>Total</span>
-              <span className="text-amber-700">{grandTotal.toLocaleString()} FCFA</span>
+              <span className="checkout__summary-total-value">{grandTotal.toLocaleString()} FCFA</span>
             </div>
           </div>
         </div>

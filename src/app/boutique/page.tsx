@@ -18,18 +18,15 @@ export default async function BoutiquePage({
   const categories = Object.entries(categoryLabels) as [Category, string][]
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 className="text-3xl font-bold text-gray-900 mb-8">Boutique</h1>
+    <div className="boutique">
+      <h1 className="boutique__title">Boutique</h1>
 
       {/* Filters */}
-      <div className="flex flex-wrap gap-2 mb-8">
+      <div className="boutique__filters">
         <a
           href="/boutique"
-          className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-            !category
-              ? 'bg-amber-700 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-          }`}
+          className={`boutique__filter-btn ${!category ? 'boutique__filter-btn--active' : 'boutique__filter-btn--inactive'
+            }`}
         >
           Tous
         </a>
@@ -37,11 +34,10 @@ export default async function BoutiquePage({
           <a
             key={key}
             href={`/boutique?categorie=${key}`}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-              category === key
-                ? 'bg-amber-700 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            }`}
+            className={`boutique__filter-btn ${category === key
+              ? 'boutique__filter-btn--active'
+              : 'boutique__filter-btn--inactive'
+              }`}
           >
             {label}
           </a>
@@ -50,14 +46,14 @@ export default async function BoutiquePage({
 
       {/* Products Grid */}
       {products.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
+        <div className="boutique__grid">
+          {products.map((product: any) => (
+            <ProductCard key={product.id} product={product as any} />
           ))}
         </div>
       ) : (
-        <div className="text-center py-16">
-          <p className="text-gray-500">Aucun produit dans cette catégorie pour le moment.</p>
+        <div className="boutique__empty">
+          <p className="boutique__empty-text">Aucun produit dans cette catégorie pour le moment.</p>
         </div>
       )}
     </div>

@@ -12,7 +12,7 @@ interface ProductCardProps {
     description: string
     price: number
     stock: number
-    category: Category
+    category: string | Category
     monastery: { name: string }
     images: string
     featured: boolean
@@ -23,35 +23,35 @@ export default function ProductCard({ product }: ProductCardProps) {
   const firstImage = product.images.split(',')[0] || '/placeholder.jpg'
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
+    <div className="product-card">
       <Link href={`/produit/${product.id}`}>
-        <div className="relative aspect-square bg-gray-100">
+        <div className="product-card__image-container">
           <Image
             src={firstImage}
             alt={product.name}
             fill
-            className="object-cover"
+            className="product-card__image"
           />
-          <span className="absolute top-2 left-2 px-2 py-1 bg-amber-100 text-amber-800 text-xs font-medium rounded">
-            {categoryLabels[product.category]}
+          <span className="product-card__badge">
+            {(categoryLabels as Record<string, string>)[product.category] || product.category}
           </span>
         </div>
       </Link>
-      <div className="p-4">
-        <p className="text-xs text-gray-500 mb-1">{product.monastery.name}</p>
-        <Link href={`/produit/${product.id}`}>
-          <h3 className="font-semibold text-gray-900 mb-2 line-clamp-1 hover:text-amber-700 transition-colors">
+      <div className="product-card__body">
+        <p className="product-card__monastery">{product.monastery.name}</p>
+        <Link href={`/produit/${product.id}`} className="product-card__product-link">
+          <h3 className="product-card__name">
             {product.name}
           </h3>
         </Link>
-        <p className="text-sm text-gray-600 line-clamp-2 mb-3">{product.description}</p>
-        <div className="flex items-center justify-between">
-          <span className="font-bold text-amber-700">{product.price.toLocaleString()} FCFA</span>
-          <button 
-            className="p-2 bg-amber-100 text-amber-700 rounded-full hover:bg-amber-200 transition-colors"
+        <p className="product-card__description">{product.description}</p>
+        <div className="product-card__footer">
+          <span className="product-card__price">{product.price.toLocaleString()} FCFA</span>
+          <button
+            className="product-card__add-btn"
             aria-label="Ajouter au panier"
           >
-            <ShoppingCart className="w-4 h-4" />
+            <ShoppingCart className="product-card__icon" />
           </button>
         </div>
       </div>

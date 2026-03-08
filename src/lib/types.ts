@@ -16,8 +16,10 @@ export interface Monastery {
   name: string
   location: string
   description: string
-  phone?: string
-  email?: string
+  phone?: string | null
+  email?: string | null
+  latitude?: number | null
+  longitude?: number | null
 }
 
 export type Category = 'MIEL' | 'CONFITURE' | 'TISANE' | 'COSMETIQUE' | 'ARTISANAT' | 'EPICE'

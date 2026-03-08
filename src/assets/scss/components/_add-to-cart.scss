@@ -1,0 +1,111 @@
+.add-to-cart {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    /* space-y-4 */
+
+    &__quantity {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        /* space-x-4 */
+    }
+
+    &__label {
+        font-size: 0.875rem;
+        /* text-sm */
+        font-weight: 500;
+        color: #374151;
+        /* text-gray-700 */
+    }
+
+    &__controls {
+        display: flex;
+        align-items: center;
+        border: 1px solid #d1d5db;
+        /* border-gray-300 */
+        border-radius: 0.5rem;
+        /* rounded-lg */
+    }
+
+    &__btn {
+        padding: 0.5rem;
+        /* p-2 */
+        background: none;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover:not(:disabled) {
+            background-color: #f3f4f6;
+            /* hover:bg-gray-100 */
+        }
+
+        &:disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+    }
+
+    &__icon {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    &__value {
+        width: 3rem;
+        /* w-12 */
+        text-align: center;
+        font-weight: 500;
+    }
+
+    &__submit {
+        width: 100%;
+        padding: 0.75rem 0;
+        /* py-3 */
+        font-weight: 500;
+        border-radius: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        /* space-x-2 */
+        transition: background-color 0.2s ease, color 0.2s ease;
+        border: none;
+        cursor: pointer;
+
+        &--added {
+            background-color: #16a34a;
+            /* bg-green-600 */
+            color: #ffffff;
+        }
+
+        &--normal {
+            background-color: #b45309;
+            /* bg-amber-700 */
+            color: #ffffff;
+
+            &:hover:not(:disabled) {
+                background-color: #92400e;
+                /* hover:bg-amber-800 */
+            }
+        }
+
+        &--disabled {
+            background-color: #e5e7eb;
+            /* bg-gray-200 */
+            color: #6b7280;
+            /* text-gray-500 */
+            cursor: not-allowed;
+        }
+    }
+
+    &__submit-icon {
+        width: 1.25rem;
+        /* w-5 */
+        height: 1.25rem;
+    }
+}

@@ -11,68 +11,68 @@ export default async function HomePage() {
   })
 
   return (
-    <div>
+    <div className="home">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-amber-50 to-green-50 py-16 md:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+      <section className="home-hero">
+        <div className="home-hero__container">
+          <div className="home-hero__content">
+            <h1 className="home-hero__title">
               Produits artisanaux des
-              <span className="text-amber-700"> monastères</span> d&apos;Afrique de l&apos;Ouest
+              <span className="home-hero__highlight"> monastères</span> d&apos;Afrique de l&apos;Ouest
             </h1>
-            <p className="text-lg text-gray-600 mb-8">
-              Découvrez nos miels, confitures, tisanes et cosmétiques naturels 
+            <p className="home-hero__description">
+              Découvrez nos miels, confitures, tisanes et cosmétiques naturels
               fabriqués avec amour par les communautés monastiques d&apos;Abidjan.
             </p>
             <Link
               href="/boutique"
-              className="inline-flex items-center px-6 py-3 bg-amber-700 text-white font-medium rounded-lg hover:bg-amber-800 transition-colors"
+              className="home-hero__btn"
             >
               Découvrir la boutique
-              <ArrowRight className="ml-2 w-4 h-4" />
+              <ArrowRight className="home-hero__btn-icon" />
             </Link>
           </div>
         </div>
       </section>
 
       {/* Features */}
-      <section className="py-12 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center p-6">
-              <Leaf className="w-10 h-10 text-green-600 mx-auto mb-4" />
-              <h3 className="font-semibold text-gray-900 mb-2">100% Naturel</h3>
-              <p className="text-sm text-gray-600">Produits bio sans additifs chimiques</p>
+      <section className="home-features">
+        <div className="home-features__container">
+          <div className="home-features__grid">
+            <div className="home-features__card">
+              <Leaf className="home-features__icon home-features__icon--green" />
+              <h3 className="home-features__title">100% Naturel</h3>
+              <p className="home-features__desc">Produits bio sans additifs chimiques</p>
             </div>
-            <div className="text-center p-6">
-              <Truck className="w-10 h-10 text-amber-600 mx-auto mb-4" />
-              <h3 className="font-semibold text-gray-900 mb-2">Livraison à Abidjan</h3>
-              <p className="text-sm text-gray-600">Livraison rapide dans tous les quartiers</p>
+            <div className="home-features__card">
+              <Truck className="home-features__icon home-features__icon--amber" />
+              <h3 className="home-features__title">Livraison à Abidjan</h3>
+              <p className="home-features__desc">Livraison rapide dans tous les quartiers</p>
             </div>
-            <div className="text-center p-6">
-              <Shield className="w-10 h-10 text-amber-700 mx-auto mb-4" />
-              <h3 className="font-semibold text-gray-900 mb-2">Qualité garantie</h3>
-              <p className="text-sm text-gray-600">Satisfaction ou remboursement</p>
+            <div className="home-features__card">
+              <Shield className="home-features__icon home-features__icon--dark-amber" />
+              <h3 className="home-features__title">Qualité garantie</h3>
+              <p className="home-features__desc">Satisfaction ou remboursement</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Featured Products */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-bold text-gray-900">Produits en vedette</h2>
+      <section className="home-featured">
+        <div className="home-featured__container">
+          <div className="home-featured__header">
+            <h2 className="home-featured__title">Produits en vedette</h2>
             <Link
               href="/boutique"
-              className="text-amber-700 hover:text-amber-800 font-medium flex items-center"
+              className="home-featured__link"
             >
               Voir tout
-              <ArrowRight className="ml-1 w-4 h-4" />
+              <ArrowRight className="home-featured__btn-icon" />
             </Link>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredProducts.map((product) => (
+          <div className="home-featured__grid">
+            {featuredProducts.map((product: any) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>

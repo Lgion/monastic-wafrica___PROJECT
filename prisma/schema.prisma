@@ -30,6 +30,8 @@ model Monastery {
   description String
   phone       String?
   email       String?
+  latitude    Float?
+  longitude   Float?
   products    Product[]
   createdAt   DateTime  @default(now())
 }
