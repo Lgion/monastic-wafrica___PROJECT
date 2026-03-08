@@ -12,6 +12,7 @@ export default function Header() {
     { href: '/boutique', label: 'Boutique' },
     { href: '/monasteres', label: 'Monastères' },
     { href: '/a-propos', label: 'À propos' },
+    { href: '/admin', label: 'Admin' },
   ]
 
   return (

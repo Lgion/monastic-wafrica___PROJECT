@@ -21,12 +21,12 @@ interface MonasteryMapProps {
 
 export default function MonasteryMap({ monasteries }: MonasteryMapProps) {
     return (
-        <div className="h-[500px] w-full rounded-3xl overflow-hidden shadow-xl border-4 border-white">
+        <div className="monastery-map">
             <MapContainer
                 center={[5.36, -4.008]} // Centered on Abidjan/Ivory Coast approximately
                 zoom={7}
                 scrollWheelZoom={false}
-                className="h-full w-full"
+                className="monastery-map__container"
             >
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -35,12 +35,12 @@ export default function MonasteryMap({ monasteries }: MonasteryMapProps) {
                 {monasteries.filter(m => m.latitude && m.longitude).map((m) => (
                     <Marker key={m.id} position={[m.latitude, m.longitude]}>
                         <Popup>
-                            <div className="p-1">
-                                <h3 className="font-bold text-slate-900 leading-tight mb-1">{m.name}</h3>
-                                <p className="text-xs text-slate-500 mb-2">{m.location}</p>
+                            <div className="monastery-map__popup">
+                                <h3 className="monastery-map__popup-title">{m.name}</h3>
+                                <p className="monastery-map__popup-location">{m.location}</p>
                                 <a
                                     href={`#${m.id}`}
-                                    className="text-xs font-bold text-emerald-600 hover:text-emerald-700"
+                                    className="monastery-map__popup-link"
                                 >
                                     Voir détails
                                 </a>

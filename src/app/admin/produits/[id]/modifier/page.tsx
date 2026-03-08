@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
-import { Package, ShoppingBag, TrendingUp, ArrowLeft, Trash2 } from 'lucide-react'
+import { ArrowLeft, Trash2, Info, Tag, Layers, Home, Save, Upload } from 'lucide-react'
 import { categoryLabels } from '@/lib/types'
 import { updateProduct, deleteProduct } from '../../actions'
 
@@ -42,100 +42,179 @@ export default async function EditProductPage({ params }: Props) {
   }
 
   return (
-    <div className="min-h-screen">
-      <aside className="fixed left-0 top-0 h-full w-64 bg-gray-900 text-white">
-        <div className="p-6">
-          <h1 className="text-xl font-bold">Monastic Wafrica</h1>
-          <p className="text-sm text-gray-400">Administration</p>
-        </div>
-        <nav className="mt-6">
-          <Link href="/admin" className="flex items-center px-6 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
-            <TrendingUp className="w-5 h-5 mr-3" />Tableau de bord
+    <div className="admin-form animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <div className="admin-form__header">
+        <div className="admin-form__header-left">
+          <Link href="/admin/produits" className="admin-form__back-link">
+            <ArrowLeft className="admin-form__back-icon" />
           </Link>
-          <Link href="/admin/commandes" className="flex items-center px-6 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors">
-            <ShoppingBag className="w-5 h-5 mr-3" />Commandes
-          </Link>
-          <Link href="/admin/produits" className="flex items-center px-6 py-3 bg-gray-800 text-white">
-            <Package className="w-5 h-5 mr-3" />Produits
-          </Link>
-          <Link href="/" className="flex items-center px-6 py-3 text-gray-300 hover:bg-gray-800 hover:text-white transition-colors mt-auto">
-            ← Retour au site
-          </Link>
-        </nav>
-      </aside>
-
-      <main className="ml-64 p-8">
-        <div className="max-w-2xl">
-          <Link href="/admin/produits" className="text-gray-500 hover:text-gray-700 text-sm flex items-center mb-4">
-            <ArrowLeft className="w-4 h-4 mr-1" />Retour aux produits
-          </Link>
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-bold text-gray-900">Modifier le produit</h2>
-            <form action={handleDelete}>
-              <button
-                type="submit"
-                className="flex items-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-                onClick={(e) => { if (!confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')) e.preventDefault() }}
-              >
-                <Trash2 className="w-4 h-4 mr-2" />Supprimer
-              </button>
-            </form>
+          <div>
+            <h1 className="admin-form__title">Modifier le produit</h1>
+            <p className="admin-form__subtitle">Mettez à jour les informations de {product.name}</p>
           </div>
-
-          <form action={handleUpdate} className="bg-white rounded-lg shadow-sm p-6 space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Nom du produit *</label>
-              <input type="text" name="name" required defaultValue={product.name} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500" />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-              <textarea name="description" rows={4} defaultValue={product.description} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500" />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Prix (FCFA) *</label>
-                <input type="number" name="price" required min="0" defaultValue={product.price} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500" />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Stock *</label>
-                <input type="number" name="stock" required min="0" defaultValue={product.stock} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500" />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Catégorie *</label>
-              <select name="category" required defaultValue={product.category} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
-                <option value="">Sélectionner une catégorie</option>
-                {Object.entries(categoryLabels).map(([key, label]) => (
-                  <option key={key} value={key}>{label}</option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Monastère *</label>
-              <select name="monasteryId" required defaultValue={product.monasteryId} className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
-                <option value="">Sélectionner un monastère</option>
-                {monasteries.map((monastery) => (
-                  <option key={monastery.id} value={monastery.id}>{monastery.name}</option>
-                ))}
-              </select>
-            </div>
-
-            <div className="flex items-center">
-              <input type="checkbox" name="featured" id="featured" defaultChecked={product.featured} className="w-4 h-4 text-amber-600 focus:ring-amber-500 border-gray-300 rounded" />
-              <label htmlFor="featured" className="ml-2 text-sm font-medium text-gray-700">Mettre en vedette sur la page d'accueil</label>
-            </div>
-
-            <div className="flex gap-4 pt-4">
-              <Link href="/admin/produits" className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">Annuler</Link>
-              <button type="submit" className="px-6 py-2 bg-amber-700 text-white rounded-lg hover:bg-amber-800 transition-colors">Enregistrer les modifications</button>
-            </div>
+        </div>
+        <div className="admin-form__header-right">
+          <form action={handleDelete}>
+            <button
+              type="submit"
+              className="admin-form__action-btn admin-form__action-btn--danger"
+              onClick={(e) => { if (!confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')) e.preventDefault() }}
+            >
+              <Trash2 className="w-4 h-4" />
+              Supprimer
+            </button>
           </form>
         </div>
-      </main>
+      </div>
+
+      <form action={handleUpdate} className="admin-form__grid">
+        <div className="admin-form__main-col">
+          <div className="admin-form__section">
+            <div className="admin-form__section-header">
+              <Info className="admin-form__section-icon" />
+              <h2 className="admin-form__section-title">Information Générale</h2>
+            </div>
+            <div className="admin-form__fields">
+              <div className="admin-form__field-group">
+                <label className="admin-form__label">Nom du produit *</label>
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  defaultValue={product.name}
+                  className="admin-form__input"
+                />
+              </div>
+
+              <div className="admin-form__field-group">
+                <label className="admin-form__label">Description</label>
+                <textarea
+                  name="description"
+                  rows={4}
+                  defaultValue={product.description || ''}
+                  className="admin-form__textarea"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="admin-form__section">
+            <div className="admin-form__section-header">
+              <Tag className="admin-form__section-icon" />
+              <h2 className="admin-form__section-title">Prix et Stock</h2>
+            </div>
+            <div className="admin-form__row">
+              <div className="admin-form__field-group">
+                <label className="admin-form__label">Prix (FCFA) *</label>
+                <div className="admin-form__input-wrapper">
+                  <span className="admin-form__input-suffix">XOF</span>
+                  <input
+                    type="number"
+                    name="price"
+                    required
+                    min="0"
+                    defaultValue={product.price}
+                    className="admin-form__input"
+                  />
+                </div>
+              </div>
+              <div className="admin-form__field-group">
+                <label className="admin-form__label">Stock *</label>
+                <input
+                  type="number"
+                  name="stock"
+                  required
+                  min="0"
+                  defaultValue={product.stock}
+                  className="admin-form__input"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="admin-form__section">
+            <div className="admin-form__section-header">
+              <Upload className="admin-form__section-icon" />
+              <h2 className="admin-form__section-title">Images du produit</h2>
+            </div>
+            <div className="admin-form__upload">
+              <div className="admin-form__upload-icon-wrapper">
+                <Upload className="admin-form__upload-icon" />
+              </div>
+              <p className="admin-form__upload-title">Cliquez pour téléverser</p>
+              <p className="admin-form__upload-hint">PNG, JPG ou WEBP jusqu'à 5MB</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="admin-form__side-col">
+          <div className="admin-form__section admin-form__section--sticky">
+            <div className="admin-form__section-header">
+              <Layers className="admin-form__section-icon" />
+              <h2 className="admin-form__section-title">Organisation</h2>
+            </div>
+
+            <div className="admin-form__fields">
+              <div className="admin-form__field-group">
+                <label className="admin-form__label">
+                  <Home className="w-3.5 h-3.5" />
+                  Monastère *
+                </label>
+                <select
+                  name="monasteryId"
+                  required
+                  defaultValue={product.monasteryId}
+                  className="admin-form__select"
+                >
+                  <option value="">Sélectionner un monastère</option>
+                  {monasteries.map((monastery: any) => (
+                    <option key={monastery.id} value={monastery.id}>{monastery.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="admin-form__field-group">
+                <label className="admin-form__label">Catégorie *</label>
+                <select
+                  name="category"
+                  required
+                  defaultValue={product.category}
+                  className="admin-form__select"
+                >
+                  <option value="">Sélectionner une catégorie</option>
+                  {Object.entries(categoryLabels).map(([key, label]) => (
+                    <option key={key} value={key}>{label}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="admin-form__toggle-box">
+                <div className="admin-form__toggle-info">
+                  <span className="admin-form__toggle-title">Mettre en vedette</span>
+                  <span className="admin-form__toggle-desc">Afficher sur la page d'accueil</span>
+                </div>
+                <input
+                  type="checkbox"
+                  name="featured"
+                  id="featured"
+                  defaultChecked={product.featured}
+                  className="admin-form__checkbox"
+                />
+              </div>
+            </div>
+
+            <div className="admin-form__actions">
+              <button type="submit" className="admin-form__submit-btn">
+                <Save className="admin-form__submit-icon" />
+                Enregistrer
+              </button>
+              <Link href="/admin/produits" className="admin-form__cancel-link">
+                Annuler
+              </Link>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
   )
 }

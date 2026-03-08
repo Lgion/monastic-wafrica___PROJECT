@@ -33,103 +33,102 @@ async function createMonastery(formData: FormData) {
 
 export default function NewMonasteryPage() {
     return (
-        <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <div className="flex items-center gap-4">
-                <Link href="/admin/monasteres" className="p-2 bg-white border border-slate-200 rounded-xl text-slate-400 hover:text-slate-900 transition-all hover:bg-slate-50">
-                    <ArrowLeft className="w-5 h-5" />
-                </Link>
-                <div>
-                    <h1 className="text-3xl font-bold text-slate-900">Nouvelle Communauté</h1>
-                    <p className="text-slate-500">Ajoutez un nouveau lieu ou une nouvelle communauté chrétienne</p>
+        <div className="admin-form animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="admin-form__header">
+                <div className="admin-form__header-left">
+                    <Link href="/admin/monasteres" className="admin-form__back-link">
+                        <ArrowLeft className="admin-form__back-icon" />
+                    </Link>
+                    <div>
+                        <h1 className="admin-form__title">Nouvelle Communauté</h1>
+                        <p className="admin-form__subtitle">Ajoutez un nouveau lieu ou une nouvelle communauté chrétienne</p>
+                    </div>
                 </div>
             </div>
 
-            <form action={createMonastery} className="grid grid-cols-1 lg:grid-cols-3 gap-8 pb-12">
-                <div className="lg:col-span-2 space-y-6">
+            <form action={createMonastery} className="admin-form__grid">
+                <div className="admin-form__main-col">
                     {/* General Information */}
-                    <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 space-y-6">
-                        <div className="flex items-center gap-2 pb-2 border-b border-slate-50">
-                            <Info className="w-5 h-5 text-emerald-600" />
-                            <h2 className="font-bold text-slate-900">Information Générale</h2>
+                    <div className="admin-form__section">
+                        <div className="admin-form__section-header">
+                            <Info className="admin-form__section-icon" />
+                            <h2 className="admin-form__section-title">Information Générale</h2>
                         </div>
 
-                        <div className="space-y-4">
-                            <div>
-                                <label className="block text-sm font-bold text-slate-700 mb-1">Nom du monastère/communauté</label>
+                        <div className="admin-form__fields">
+                            <div className="admin-form__field-group">
+                                <label className="admin-form__label">Nom du monastère/communauté</label>
                                 <input
                                     name="name"
                                     type="text"
                                     placeholder="Ex: Monastère Sainte Marie de Bouaké"
                                     required
-                                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none transition-all text-slate-900 font-medium"
+                                    className="admin-form__input"
                                 />
                             </div>
 
-                            <div>
-                                <label className="block text-sm font-bold text-slate-700 mb-1">Description</label>
+                            <div className="admin-form__field-group">
+                                <label className="admin-form__label">Description</label>
                                 <textarea
                                     name="description"
                                     rows={4}
                                     placeholder="Histoire, spiritualité et activités de la communauté..."
                                     required
-                                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none transition-all text-slate-900 resize-none font-medium"
+                                    className="admin-form__textarea"
                                 ></textarea>
                             </div>
                         </div>
                     </div>
 
                     {/* Contact Information */}
-                    <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 space-y-6">
-                        <div className="flex items-center gap-2 pb-2 border-b border-slate-50">
-                            <Phone className="w-5 h-5 text-emerald-600" />
-                            <h2 className="font-bold text-slate-900">Contact</h2>
+                    <div className="admin-form__section">
+                        <div className="admin-form__section-header">
+                            <Phone className="admin-form__section-icon" />
+                            <h2 className="admin-form__section-title">Contact</h2>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label className="block text-sm font-bold text-slate-700 mb-1">Téléphone</label>
+                        <div className="admin-form__row">
+                            <div className="admin-form__field-group">
+                                <label className="admin-form__label">Téléphone</label>
                                 <input
                                     name="phone"
                                     type="tel"
                                     placeholder="+225 07 00 00 00 00"
-                                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none transition-all text-slate-900"
+                                    className="admin-form__input"
                                 />
                             </div>
-                            <div>
-                                <label className="block text-sm font-bold text-slate-700 mb-1">Email</label>
+                            <div className="admin-form__field-group">
+                                <label className="admin-form__label">Email</label>
                                 <input
                                     name="email"
                                     type="email"
                                     placeholder="contact@communaute.ci"
-                                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none transition-all text-slate-900"
+                                    className="admin-form__input"
                                 />
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div className="space-y-6">
+                <div className="admin-form__side-col">
                     {/* Location & Map Settings */}
-                    <div className="admin_monasteresLocation bg-white p-6 rounded-3xl shadow-sm border border-slate-100 space-y-6 sticky top-28">
-                        <div className="flex items-center gap-2 pb-2 border-b border-slate-50">
-                            <MapPin className="w-5 h-5 text-emerald-600" />
-                            <h2 className="font-bold text-slate-900">Localisation</h2>
+                    <div className="admin-form__section admin-form__section--sticky">
+                        <div className="admin-form__section-header">
+                            <MapPin className="admin-form__section-icon" />
+                            <h2 className="admin-form__section-title">Localisation</h2>
                         </div>
 
-                        <div className="space-y-4">
+                        <div className="admin-form__fields">
                             <MonasteryLocationPicker />
                             <p className="text-[10px] text-slate-400 italic">Cliquez sur la carte pour choisir un lieu précis. Le nom de la ville et les coordonnées se rempliront automatiquement.</p>
                         </div>
 
-                        <div className="pt-6 border-t border-slate-100 flex flex-col gap-3">
-                            <button
-                                type="submit"
-                                className="w-full bg-emerald-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-100"
-                            >
-                                <Save className="w-5 h-5" />
+                        <div className="admin-form__actions">
+                            <button type="submit" className="admin-form__submit-btn">
+                                <Save className="admin-form__submit-icon" />
                                 Enregistrer le lieu
                             </button>
-                            <Link href="/admin/monasteres" className="w-full text-center py-2 text-sm font-semibold text-slate-400 hover:text-slate-600 transition-colors">
+                            <Link href="/admin/monasteres" className="admin-form__cancel-link">
                                 Annuler
                             </Link>
                         </div>

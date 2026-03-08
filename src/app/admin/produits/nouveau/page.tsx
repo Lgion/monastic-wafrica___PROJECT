@@ -42,134 +42,136 @@ export default async function NewProductPage() {
   const monasteries = await getMonasteries();
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="flex items-center gap-4">
-        <Link href="/admin/produits" className="p-2 bg-white border border-slate-200 rounded-xl text-slate-400 hover:text-slate-900 transition-all hover:bg-slate-50">
-          <ArrowLeft className="w-5 h-5" />
-        </Link>
-        <div>
-          <h1 className="text-3xl font-bold text-slate-900">Nouveau Produit</h1>
-          <p className="text-slate-500">Ajoutez un article unique à votre catalogue</p>
+    <div className="admin-form animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <div className="admin-form__header">
+        <div className="admin-form__header-left">
+          <Link href="/admin/produits" className="admin-form__back-link">
+            <ArrowLeft className="admin-form__back-icon" />
+          </Link>
+          <div>
+            <h1 className="admin-form__title">Nouveau Produit</h1>
+            <p className="admin-form__subtitle">Ajoutez un article unique à votre catalogue</p>
+          </div>
         </div>
       </div>
 
-      <form action={createProduct} className="grid grid-cols-1 lg:grid-cols-3 gap-8 pb-12">
-        <div className="lg:col-span-2 space-y-6">
+      <form action={createProduct} className="admin-form__grid">
+        <div className="admin-form__main-col">
           {/* General Information */}
-          <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 space-y-6">
-            <div className="flex items-center gap-2 pb-2 border-b border-slate-50">
-              <Info className="w-5 h-5 text-emerald-600" />
-              <h2 className="font-bold text-slate-900">Information Générale</h2>
+          <div className="admin-form__section">
+            <div className="admin-form__section-header">
+              <Info className="admin-form__section-icon" />
+              <h2 className="admin-form__section-title">Information Générale</h2>
             </div>
 
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-bold text-slate-700 mb-1">Nom du produit</label>
+            <div className="admin-form__fields">
+              <div className="admin-form__field-group">
+                <label className="admin-form__label">Nom du produit</label>
                 <input
                   name="name"
                   type="text"
                   placeholder="Ex: Miel de Lavande Premium"
                   required
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none transition-all text-slate-900 font-medium"
+                  className="admin-form__input"
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-bold text-slate-700 mb-1">Description détaillée</label>
+              <div className="admin-form__field-group">
+                <label className="admin-form__label">Description détaillée</label>
                 <textarea
                   name="description"
                   rows={4}
                   placeholder="Décrivez les bienfaits, la provenance et les ingrédients..."
                   required
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none transition-all text-slate-900 resize-none font-medium"
+                  className="admin-form__textarea"
                 ></textarea>
               </div>
             </div>
           </div>
 
           {/* Pricing & Stock */}
-          <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 space-y-6">
-            <div className="flex items-center gap-2 pb-2 border-b border-slate-50">
-              <Tag className="w-5 h-5 text-emerald-600" />
-              <h2 className="font-bold text-slate-900">Prix et Stock</h2>
+          <div className="admin-form__section">
+            <div className="admin-form__section-header">
+              <Tag className="admin-form__section-icon" />
+              <h2 className="admin-form__section-title">Prix et Stock</h2>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-bold text-slate-700 mb-1">Prix (FCFA)</label>
-                <div className="relative">
-                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold text-xs uppercase">XOF</span>
+            <div className="admin-form__row">
+              <div className="admin-form__field-group">
+                <label className="admin-form__label">Prix (FCFA)</label>
+                <div className="admin-form__input-wrapper">
+                  <span className="admin-form__input-suffix">XOF</span>
                   <input
                     name="price"
                     type="number"
                     placeholder="0"
                     required
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none transition-all text-slate-900 font-bold"
+                    className="admin-form__input"
                   />
                 </div>
               </div>
-              <div>
-                <label className="block text-sm font-bold text-slate-700 mb-1">Quantité en stock</label>
+              <div className="admin-form__field-group">
+                <label className="admin-form__label">Quantité en stock</label>
                 <input
                   name="stock"
                   type="number"
                   placeholder="0"
                   required
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none transition-all text-slate-900 font-bold"
+                  className="admin-form__input"
                 />
               </div>
             </div>
           </div>
 
           {/* Images */}
-          <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 space-y-6">
-            <div className="flex items-center gap-2 pb-2 border-b border-slate-50">
-              <Upload className="w-5 h-5 text-emerald-600" />
-              <h2 className="font-bold text-slate-900">Images du produit</h2>
+          <div className="admin-form__section">
+            <div className="admin-form__section-header">
+              <Upload className="admin-form__section-icon" />
+              <h2 className="admin-form__section-title">Images du produit</h2>
             </div>
 
-            <div className="aspect-video border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center text-slate-400 hover:bg-slate-50/50 transition-all cursor-pointer group">
-              <div className="p-4 bg-slate-50 rounded-full mb-3 group-hover:scale-110 transition-transform">
-                <Upload className="w-8 h-8" />
+            <div className="admin-form__upload">
+              <div className="admin-form__upload-icon-wrapper">
+                <Upload className="admin-form__upload-icon" />
               </div>
-              <p className="font-bold text-sm text-slate-600">Cliquez pour téléverser</p>
-              <p className="text-xs">PNG, JPG ou WEBP jusqu'à 5MB</p>
+              <p className="admin-form__upload-title">Cliquez pour téléverser</p>
+              <p className="admin-form__upload-hint">PNG, JPG ou WEBP jusqu'à 5MB</p>
             </div>
           </div>
         </div>
 
-        <div className="space-y-6">
+        <div className="admin-form__side-col">
           {/* Organization */}
-          <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 space-y-6 sticky top-28">
-            <div className="flex items-center gap-2 pb-2 border-b border-slate-50">
-              <Layers className="w-5 h-5 text-emerald-600" />
-              <h2 className="font-bold text-slate-900">Organisation</h2>
+          <div className="admin-form__section admin-form__section--sticky">
+            <div className="admin-form__section-header">
+              <Layers className="admin-form__section-icon" />
+              <h2 className="admin-form__section-title">Organisation</h2>
             </div>
 
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-bold text-slate-700 mb-1 flex items-center gap-2">
+            <div className="admin-form__fields">
+              <div className="admin-form__field-group">
+                <label className="admin-form__label">
                   <Home className="w-3.5 h-3.5" />
                   Monastère Producteur
                 </label>
                 <select
                   name="monasteryId"
                   required
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none transition-all text-slate-900 font-medium appearance-none"
+                  className="admin-form__select"
                 >
                   <option value="">Sélectionner un monastère</option>
-                  {monasteries.map((m) => (
+                  {monasteries.map((m: any) => (
                     <option key={m.id} value={m.id}>{m.name}</option>
                   ))}
                 </select>
               </div>
 
-              <div>
-                <label className="block text-sm font-bold text-slate-700 mb-1">Catégorie</label>
+              <div className="admin-form__field-group">
+                <label className="admin-form__label">Catégorie</label>
                 <select
                   name="category"
                   required
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none transition-all text-slate-900 font-medium appearance-none"
+                  className="admin-form__select"
                 >
                   <option value="Epicerie">Epicerie Finie</option>
                   <option value="Sante">Santé & Bien-être</option>
@@ -178,28 +180,25 @@ export default async function NewProductPage() {
                 </select>
               </div>
 
-              <div className="pt-4 flex items-center justify-between p-4 bg-slate-50 rounded-2xl">
-                <div className="flex flex-col">
-                  <span className="text-sm font-bold text-slate-900">Mettre en vedette</span>
-                  <span className="text-[10px] text-slate-500">Afficher sur la page d'accueil</span>
+              <div className="admin-form__toggle-box">
+                <div className="admin-form__toggle-info">
+                  <span className="admin-form__toggle-title">Mettre en vedette</span>
+                  <span className="admin-form__toggle-desc">Afficher sur la page d'accueil</span>
                 </div>
                 <input
                   name="featured"
                   type="checkbox"
-                  className="w-6 h-6 rounded-lg text-emerald-600 focus:ring-emerald-500 border-slate-300 transition-all cursor-pointer"
+                  className="admin-form__checkbox"
                 />
               </div>
             </div>
 
-            <div className="pt-6 border-t border-slate-100 flex flex-col gap-3">
-              <button
-                type="submit"
-                className="w-full bg-emerald-600 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-100"
-              >
-                <Save className="w-5 h-5" />
+            <div className="admin-form__actions">
+              <button type="submit" className="admin-form__submit-btn">
+                <Save className="admin-form__submit-icon" />
                 Enregistrer le produit
               </button>
-              <Link href="/admin/produits" className="w-full text-center py-2 text-sm font-semibold text-slate-400 hover:text-slate-600 transition-colors">
+              <Link href="/admin/produits" className="admin-form__cancel-link">
                 Annuler
               </Link>
             </div>

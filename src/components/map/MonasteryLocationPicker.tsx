@@ -76,12 +76,12 @@ export default function MonasteryLocationPicker({ initialLocation, initialLat, i
     };
 
     return (
-        <div className="space-y-4">
-            <div className="relative h-64 w-full rounded-2xl overflow-hidden border-2 border-slate-100 shadow-inner group">
+        <div className="location-picker">
+            <div className="location-picker__map-wrapper group">
                 <MapContainer
                     center={position || [5.36, -4.008]}
                     zoom={position ? 12 : 6}
-                    className="h-full w-full z-0"
+                    className="location-picker__container"
                 >
                     <TileLayer
                         attribution='&copy; OpenStreetMap contributors'
@@ -93,24 +93,24 @@ export default function MonasteryLocationPicker({ initialLocation, initialLat, i
                 </MapContainer>
 
                 {!position && (
-                    <div className="absolute inset-0 bg-slate-900/5 backdrop-blur-[2px] flex items-center justify-center z-10 pointer-events-none group-hover:bg-transparent transition-all">
-                        <div className="bg-white px-4 py-2 rounded-full shadow-lg flex items-center gap-2 text-sm font-bold text-slate-600">
-                            <MapPin className="w-4 h-4 text-emerald-500" />
+                    <div className="location-picker__overlay">
+                        <div className="location-picker__overlay-badge">
+                            <MapPin className="location-picker__badge-icon" />
                             Cliquez sur la carte pour choisir un lieu
                         </div>
                     </div>
                 )}
 
                 {loading && (
-                    <div className="absolute top-3 right-3 z-20 bg-white/80 backdrop-blur p-2 rounded-lg shadow-sm">
-                        <Loader2 className="w-4 h-4 text-emerald-600 animate-spin" />
+                    <div className="location-picker__loader">
+                        <Loader2 className="location-picker__loader-icon" />
                     </div>
                 )}
             </div>
 
-            <div className="space-y-4">
-                <div>
-                    <label className="block text-sm font-bold text-slate-700 mb-1">Ville / Région détectée</label>
+            <div className="location-picker__fields">
+                <div className="location-picker__field-group">
+                    <label className="location-picker__label">Ville / Région détectée</label>
                     <input
                         name="location"
                         type="text"
@@ -118,13 +118,13 @@ export default function MonasteryLocationPicker({ initialLocation, initialLat, i
                         onChange={(e) => setLocationName(e.target.value)}
                         placeholder="Cliquez sur la carte ou saisissez manuellement"
                         required
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none transition-all text-slate-900 font-medium"
+                        className="location-picker__input"
                     />
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
-                    <div>
-                        <label className="block text-sm font-bold text-slate-700 mb-1">Latitude</label>
+                <div className="location-picker__row">
+                    <div className="location-picker__field-group">
+                        <label className="location-picker__label">Latitude</label>
                         <input
                             name="latitude"
                             type="number"
@@ -132,11 +132,11 @@ export default function MonasteryLocationPicker({ initialLocation, initialLat, i
                             value={position ? position[0].toFixed(6) : ''}
                             readOnly
                             required
-                            className="w-full px-4 py-3 bg-slate-100 border border-slate-200 rounded-xl outline-none text-slate-500 text-sm font-mono cursor-not-allowed"
+                            className="location-picker__input-readonly"
                         />
                     </div>
-                    <div>
-                        <label className="block text-sm font-bold text-slate-700 mb-1">Longitude</label>
+                    <div className="location-picker__field-group">
+                        <label className="location-picker__label">Longitude</label>
                         <input
                             name="longitude"
                             type="number"
@@ -144,7 +144,7 @@ export default function MonasteryLocationPicker({ initialLocation, initialLat, i
                             value={position ? position[1].toFixed(6) : ''}
                             readOnly
                             required
-                            className="w-full px-4 py-3 bg-slate-100 border border-slate-200 rounded-xl outline-none text-slate-500 text-sm font-mono cursor-not-allowed"
+                            className="location-picker__input-readonly"
                         />
                     </div>
                 </div>

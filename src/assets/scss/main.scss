@@ -13,11 +13,14 @@
 @use "./components/buttons" as *;
 @use "./components/product-card" as *;
 @use "./components/add-to-cart" as *;
+@use "./components/admin-form" as *;
+@use "./components/map" as *;
 
 @use "./layouts/headers" as *;
 @use "./layouts/navs" as *;
 @use "./layouts/mains" as *;
 @use "./layouts/footers" as *;
+@use "./layouts/admin-layout" as *;
 
 @use "./pages/all" as *;
 @use "./pages/home" as *;
@@ -28,3 +31,7 @@
 @use "./pages/panier" as *;
 @use "./pages/commande" as *;
 @use "./pages/menus" as *;
+@use "./pages/admin-dashboard" as *;
+@use "./pages/admin-orders" as *;
+@use "./pages/admin-products" as *;
+@use "./pages/admin-monasteries" as *;

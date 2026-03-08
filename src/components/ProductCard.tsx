@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { ShoppingCart } from 'lucide-react'
 import { Category, categoryLabels } from '@/lib/types'
+import { log } from 'console'
 
 interface ProductCardProps {
   product: {
@@ -21,6 +22,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const firstImage = product.images.split(',')[0] || '/placeholder.jpg'
+  console.log(product)
 
   return (
     <div className="product-card">

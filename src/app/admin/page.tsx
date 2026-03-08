@@ -45,71 +45,71 @@ export default async function AdminDashboard() {
   });
 
   return (
-    <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <div className="flex justify-between items-center">
+    <div className="admin-dashboard">
+      <div className="admin-dashboard__header">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900">Tableau de bord</h1>
-          <p className="text-slate-500">Aperçu général de votre activité</p>
+          <h1 className="admin-dashboard__title">Tableau de bord</h1>
+          <p className="admin-dashboard__subtitle">Aperçu général de votre activité</p>
         </div>
-        <div className="flex gap-3">
-          <button className="px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-semibold hover:bg-slate-50 transition-all">Exporter</button>
-          <button className="px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-semibold hover:bg-emerald-700 transition-all">Rapport détaillé</button>
+        <div className="admin-dashboard__actions">
+          <button className="admin-dashboard__action-btn admin-dashboard__action-btn--secondary">Exporter</button>
+          <button className="admin-dashboard__action-btn admin-dashboard__action-btn--primary">Rapport détaillé</button>
         </div>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="admin-dashboard__stats">
         {cards.map((card, i) => (
-          <div key={i} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-all group">
-            <div className="flex justify-between items-start mb-4">
-              <div className={`p-3 rounded-xl bg-${card.color}-50 text-${card.color}-600 group-hover:scale-110 transition-transform`}>
-                <card.icon className="w-6 h-6" />
+          <div key={i} className="admin-dashboard__stat-card">
+            <div className="admin-dashboard__stat-header">
+              <div className={`admin-dashboard__stat-icon-wrapper admin-dashboard__stat-icon-wrapper--${card.color}`}>
+                <card.icon className="admin-dashboard__stat-icon" />
               </div>
-              <div className={`flex items-center text-xs font-bold gap-1 ${card.trend.startsWith('+') ? 'text-emerald-500' : card.trend === 'stable' ? 'text-slate-400' : 'text-red-500'}`}>
+              <div className={`admin-dashboard__stat-trend ${card.trend.startsWith('+') ? 'admin-dashboard__stat-trend--positive' : card.trend === 'stable' ? 'admin-dashboard__stat-trend--neutral' : 'admin-dashboard__stat-trend--negative'}`}>
                 {card.trend}
-                {card.trend.startsWith('+') ? <ArrowUpRight className="w-3 h-3" /> : card.trend !== 'stable' && <ArrowDownRight className="w-3 h-3" />}
+                {card.trend.startsWith('+') ? <ArrowUpRight className="admin-dashboard__stat-trend-icon" /> : card.trend !== 'stable' && <ArrowDownRight className="admin-dashboard__stat-trend-icon" />}
               </div>
             </div>
-            <h3 className="text-slate-500 text-sm font-medium">{card.label}</h3>
-            <p className="text-2xl font-bold text-slate-900 mt-1">{card.value}</p>
+            <h3 className="admin-dashboard__stat-label">{card.label}</h3>
+            <p className="admin-dashboard__stat-value">{card.value}</p>
           </div>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="admin-dashboard__main-grid">
         {/* Recent Orders Table */}
-        <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-          <div className="p-6 border-b border-slate-50 flex justify-between items-center">
-            <h2 className="font-bold text-lg text-slate-900">Commandes récentes</h2>
-            <Link href="/admin/commandes" className="text-emerald-600 text-sm font-semibold hover:underline">Voir tout</Link>
+        <div className="admin-dashboard__table-wrapper">
+          <div className="admin-dashboard__table-header">
+            <h2 className="admin-dashboard__table-title">Commandes récentes</h2>
+            <Link href="/admin/commandes" className="admin-dashboard__table-link">Voir tout</Link>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-left">
-              <thead className="bg-slate-50 text-slate-400 text-xs uppercase tracking-wider">
+          <div className="admin-dashboard__table-container">
+            <table className="admin-dashboard__table">
+              <thead className="admin-dashboard__table-head">
                 <tr>
-                  <th className="px-6 py-4 font-semibold">Client</th>
-                  <th className="px-6 py-4 font-semibold">Date</th>
-                  <th className="px-6 py-4 font-semibold">Montant</th>
-                  <th className="px-6 py-4 font-semibold">Statut</th>
+                  <th className="admin-dashboard__th">Client</th>
+                  <th className="admin-dashboard__th">Date</th>
+                  <th className="admin-dashboard__th">Montant</th>
+                  <th className="admin-dashboard__th">Statut</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-50">
+              <tbody className="admin-dashboard__tbody">
                 {recentOrders.map((order) => (
-                  <tr key={order.id} className="hover:bg-slate-50 transition-all cursor-pointer">
-                    <td className="px-6 py-4">
-                      <p className="font-bold text-slate-900">{order.customerName}</p>
-                      <p className="text-xs text-slate-500">{order.customerPhone}</p>
+                  <tr key={order.id} className="admin-dashboard__tr">
+                    <td className="admin-dashboard__td">
+                      <p className="admin-dashboard__customer-name">{order.customerName}</p>
+                      <p className="admin-dashboard__customer-phone">{order.customerPhone}</p>
                     </td>
-                    <td className="px-6 py-4 text-sm text-slate-600">
+                    <td className="admin-dashboard__td admin-dashboard__td-date">
                       {new Date(order.createdAt).toLocaleDateString('fr-FR')}
                     </td>
-                    <td className="px-6 py-4 font-bold text-slate-900">
+                    <td className="admin-dashboard__td admin-dashboard__td-amount">
                       {new Intl.NumberFormat('fr-CI').format(order.total)} FCFA
                     </td>
-                    <td className="px-6 py-4">
-                      <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${order.status === 'COMPLETED' ? 'bg-emerald-100 text-emerald-700' :
-                          order.status === 'PENDING' ? 'bg-orange-100 text-orange-700' :
-                            'bg-red-100 text-red-700'
+                    <td className="admin-dashboard__td">
+                      <span className={`admin-dashboard__status-badge ${order.status === 'COMPLETED' ? 'admin-dashboard__status-badge--completed' :
+                          order.status === 'PENDING' ? 'admin-dashboard__status-badge--pending' :
+                            'admin-dashboard__status-badge--cancelled'
                         }`}>
                         {order.status}
                       </span>
@@ -118,7 +118,7 @@ export default async function AdminDashboard() {
                 ))}
                 {recentOrders.length === 0 && (
                   <tr>
-                    <td colSpan={4} className="px-6 py-12 text-center text-slate-500 italic">Aucune commande pour le moment</td>
+                    <td colSpan={4} className="admin-dashboard__td-empty">Aucune commande pour le moment</td>
                   </tr>
                 )}
               </tbody>
@@ -127,28 +127,28 @@ export default async function AdminDashboard() {
         </div>
 
         {/* Quick Actions / Notifications */}
-        <div className="space-y-6">
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
-            <h2 className="font-bold text-lg text-slate-900 mb-6">Actions rapides</h2>
-            <div className="grid grid-cols-2 gap-4">
-              <Link href="/admin/produits/nouveau" className="flex flex-col items-center justify-center p-4 bg-emerald-50 rounded-xl hover:bg-emerald-100 transition-all group">
-                <Package className="w-6 h-6 text-emerald-600 mb-2 group-hover:scale-110 transition-transform" />
-                <span className="text-xs font-bold text-emerald-900">Nouveau Produit</span>
+        <div className="admin-dashboard__side-panel">
+          <div className="admin-dashboard__quick-actions">
+            <h2 className="admin-dashboard__quick-title">Actions rapides</h2>
+            <div className="admin-dashboard__quick-grid">
+              <Link href="/admin/produits/nouveau" className="admin-dashboard__quick-btn admin-dashboard__quick-btn--new-product">
+                <Package className="admin-dashboard__quick-icon admin-dashboard__quick-icon--emerald" />
+                <span className="admin-dashboard__quick-label admin-dashboard__quick-label--emerald">Nouveau Produit</span>
               </Link>
-              <button className="flex flex-col items-center justify-center p-4 bg-blue-50 rounded-xl hover:bg-blue-100 transition-all group">
-                <Users className="w-6 h-6 text-blue-600 mb-2 group-hover:scale-110 transition-transform" />
-                <span className="text-xs font-bold text-blue-900">Client Info</span>
+              <button className="admin-dashboard__quick-btn admin-dashboard__quick-btn--client-info">
+                <Users className="admin-dashboard__quick-icon admin-dashboard__quick-icon--blue" />
+                <span className="admin-dashboard__quick-label admin-dashboard__quick-label--blue">Client Info</span>
               </button>
             </div>
           </div>
 
-          <div className="bg-slate-900 text-white p-6 rounded-2xl shadow-sm relative overflow-hidden group">
-            <div className="relative z-10">
-              <h3 className="font-bold text-lg mb-2">Besoin d'aide ?</h3>
-              <p className="text-slate-400 text-sm mb-4">Consultez notre documentation pour gérer au mieux votre boutique.</p>
-              <button className="px-4 py-2 bg-emerald-500 rounded-lg text-sm font-bold hover:bg-emerald-400 transition-all">Support</button>
+          <div className="admin-dashboard__help-widget">
+            <div className="admin-dashboard__help-content">
+              <h3 className="admin-dashboard__help-title">Besoin d'aide ?</h3>
+              <p className="admin-dashboard__help-desc">Consultez notre documentation pour gérer au mieux votre boutique.</p>
+              <button className="admin-dashboard__help-btn">Support</button>
             </div>
-            <div className="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/20 transition-all"></div>
+            <div className="admin-dashboard__help-blur"></div>
           </div>
         </div>
       </div>
